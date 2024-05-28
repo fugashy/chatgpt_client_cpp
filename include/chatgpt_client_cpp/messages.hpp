@@ -30,5 +30,36 @@ private:
 };
 
 
+class ContentImageUriPartBuilder
+{
+public:
+  ContentImageUriPartBuilder() = default;
+  ~ContentImageUriPartBuilder() = default;
+
+  ContentImageUriPartBuilder* type(const utility::string_t& type);
+  ContentImageUriPartBuilder* image_uri(const web::json::value& json);
+
+  web::json::value get() const;
+
+private:
+  web::json::value json_;
+};
+
+class ImageUriBuilder
+{
+public:
+  ImageUriBuilder() = default;
+  ~ImageUriBuilder() = default;
+
+  ImageUriBuilder* uri(const utility::string_t& type);
+  ImageUriBuilder* detail(const utility::string_t& type);
+
+  web::json::value get() const;
+
+private:
+  web::json::value json_;
+};
+
+
 }  // namespace chatgpt_client_cpp::messages
 #endif  // CHATGPT_CLIENT_CPP_MESSAGES_HPP_
