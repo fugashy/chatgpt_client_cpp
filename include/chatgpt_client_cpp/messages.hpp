@@ -1,5 +1,7 @@
 #ifndef CHATGPT_CLIENT_CPP_MESSAGES_HPP_
 #define CHATGPT_CLIENT_CPP_MESSAGES_HPP_
+#include <memory>
+
 #include <cpprest/json.h>
 
 namespace chatgpt_client_cpp::messages
@@ -17,6 +19,7 @@ private:
 class ContentTextPartBuilder
 {
 public:
+  using SharedPtr = std::shared_ptr<ContentTextPartBuilder>;
   ContentTextPartBuilder() = default;
   ~ContentTextPartBuilder() = default;
 
@@ -33,6 +36,7 @@ private:
 class ContentImageUriPartBuilder
 {
 public:
+  using SharedPtr = std::shared_ptr<ContentImageUriPartBuilder>;
   ContentImageUriPartBuilder() = default;
   ~ContentImageUriPartBuilder() = default;
 
@@ -48,6 +52,7 @@ private:
 class ImageUriBuilder
 {
 public:
+  using SharedPtr = std::shared_ptr<ImageUriBuilder>;
   ImageUriBuilder() = default;
   ~ImageUriBuilder() = default;
 

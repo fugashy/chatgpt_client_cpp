@@ -31,7 +31,11 @@ install(
   INCLUDES DESTINATION include
 )
 
-
 install(
   DIRECTORY include/
   DESTINATION include)
+
+if (TEST)
+  enable_testing()
+  add_subdirectory(test)
+endif()
