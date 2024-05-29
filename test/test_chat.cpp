@@ -11,10 +11,6 @@ using chatgpt_client_cpp::v1::chat::body::ContentImageUriPartBuilder;
 using chatgpt_client_cpp::v1::chat::body::ImageUriBuilder;
 
 
-TEST(ChatRequestTest, BuildRequired)
-{
-}
-
 TEST(ContentTextPartBuilderTest, BuildRequiredContent)
 {
   // setup
@@ -115,3 +111,39 @@ TEST(BodyBuilderTest, BuildRequiredContent)
   // verify
   std::cerr << request.serialize().c_str() << std::endl;
 }
+
+TEST(ChatRequestTest, BuildRequired)
+{
+  // setup
+  // nothing to do
+
+  // exercise
+  const auto req = Builder()
+    .body(BodyBuilder()
+        .model("gpt-4-turbo")
+        .message(MessageElementBuilder()
+          .role("user")
+          .content(ContentTextPartBuilder()
+              .type("text")
+              .text("hello")
+              .get())
+          .content(ContentImageUriPartBuilder()
+              .type("image_uri")
+              .image_uri(ImageUriBuilder()
+                .uri("https://hoge.com")
+                .detail("dummy")
+                .get())
+              .get())
+          .get())
+        .max_tokens(30)
+        .get())
+    .get();
+
+  // verify
+  EXPECT_STREQ(web::http::methods::POST.c_str(), req.method().c_str());
+  EXPECT_STREQ("v1/chat/completions", req.request_uri().to_string().c_str());
+  web::http::http_headers req_headers = req.headers();
+  EXPECT_EQ(3, req_headers.size());
+  // TODO(fugashy) inspect headers
+}
+

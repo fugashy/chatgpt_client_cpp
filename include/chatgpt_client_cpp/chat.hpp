@@ -23,7 +23,7 @@ public:
 
   web::http::http_request get() const noexcept;
 
-  Builder* body(const web::json::value& body);
+  Builder& body(const web::json::value& body);
 
 private:
   web::http::http_request req_;

@@ -34,10 +34,10 @@ web::http::http_request Builder::get() const noexcept
   return req_;
 }
 
-Builder* Builder::body(const web::json::value& body)
+Builder& Builder::body(const web::json::value& body)
 {
   this->req_.set_body(body);
-  return this;
+  return *this;
 }
 
 namespace body
