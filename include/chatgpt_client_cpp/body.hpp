@@ -4,19 +4,22 @@
 
 #include <cpprest/json.h>
 
-namespace chatgpt_client_cpp::messages
+namespace chatgpt_client_cpp::body
 {
 
-class ChatBodyBuilder
+namespace chat
+{
+
+class BodyBuilder
 {
 public:
-  using SharedPtr = std::shared_ptr<ChatBodyBuilder>;
-  ChatBodyBuilder();
-  ~ChatBodyBuilder() = default;
+  using SharedPtr = std::shared_ptr<BodyBuilder>;
+  BodyBuilder();
+  ~BodyBuilder() = default;
 
-  ChatBodyBuilder& model(const utility::string_t& model);
-  ChatBodyBuilder& message(const web::json::value& message);
-  ChatBodyBuilder& max_tokens(const uint32_t max_tokens);
+  BodyBuilder& model(const utility::string_t& model);
+  BodyBuilder& message(const web::json::value& message);
+  BodyBuilder& max_tokens(const uint32_t max_tokens);
 
   web::json::value get();
 
@@ -91,5 +94,6 @@ private:
 };
 
 
-}  // namespace chatgpt_client_cpp::messages
+}  // namespace chat
+}  // namespace chatgpt_client_cpp::body
 #endif  // CHATGPT_CLIENT_CPP_MESSAGES_HPP_

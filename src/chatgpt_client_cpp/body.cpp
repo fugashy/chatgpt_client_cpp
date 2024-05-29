@@ -1,33 +1,36 @@
-#include "chatgpt_client_cpp/messages.hpp"
+#include "chatgpt_client_cpp/body.hpp"
 
 
-namespace chatgpt_client_cpp::messages
+namespace chatgpt_client_cpp::body
 {
 
-ChatBodyBuilder::ChatBodyBuilder()
+namespace chat
+{
+
+BodyBuilder::BodyBuilder()
 {
   this->json_["messages"] = web::json::value::array();
 }
 
-ChatBodyBuilder& ChatBodyBuilder::model(const utility::string_t& model)
+BodyBuilder& BodyBuilder::model(const utility::string_t& model)
 {
   this->json_["model"] = web::json::value::string(model);
   return *this;
 }
 
-ChatBodyBuilder& ChatBodyBuilder::message(const web::json::value& message)
+BodyBuilder& BodyBuilder::message(const web::json::value& message)
 {
   this->json_["messages"][this->json_["messages"].size()] = message;
   return *this;
 }
 
-ChatBodyBuilder& ChatBodyBuilder::max_tokens(const uint32_t max_tokens)
+BodyBuilder& BodyBuilder::max_tokens(const uint32_t max_tokens)
 {
   this->json_["max_tokens"] = web::json::value::number(max_tokens);
   return *this;
 }
 
-web::json::value ChatBodyBuilder::get()
+web::json::value BodyBuilder::get()
 {
   const bool has_required_fields =
     this->json_.has_field("model") && this->json_.has_field("messages");
@@ -141,4 +144,5 @@ web::json::value ImageUriBuilder::get() const
   return this->json_;
 }
 
-}  // namespace chatgpt_client_cpp::messages
+}  // namespace chat
+}  // namespace chatgpt_client_cpp::body

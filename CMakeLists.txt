@@ -15,7 +15,7 @@ include_directories(
 
 add_library(${PROJECT_NAME} SHARED
   src/${PROJECT_NAME}/request.cpp
-  src/${PROJECT_NAME}/messages.cpp
+  src/${PROJECT_NAME}/body.cpp
 )
 target_link_libraries(${PROJECT_NAME}
   ${cpprestsdk_LIBRARIES}

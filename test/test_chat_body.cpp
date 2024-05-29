@@ -1,13 +1,13 @@
 #include <string>
 #include <gtest/gtest.h>
-#include "chatgpt_client_cpp/messages.hpp"
+#include "chatgpt_client_cpp/body.hpp"
 
 
-using chatgpt_client_cpp::messages::ChatBodyBuilder;;
-using chatgpt_client_cpp::messages::MessageElementBuilder;;
-using chatgpt_client_cpp::messages::ContentTextPartBuilder;
-using chatgpt_client_cpp::messages::ContentImageUriPartBuilder;
-using chatgpt_client_cpp::messages::ImageUriBuilder;
+using chatgpt_client_cpp::body::chat::BodyBuilder;;
+using chatgpt_client_cpp::body::chat::MessageElementBuilder;;
+using chatgpt_client_cpp::body::chat::ContentTextPartBuilder;
+using chatgpt_client_cpp::body::chat::ContentImageUriPartBuilder;
+using chatgpt_client_cpp::body::chat::ImageUriBuilder;
 
 
 TEST(ContentTextPartBuilderTest, BuildRequiredContent)
@@ -82,13 +82,13 @@ TEST(MessageElementBuilderTest, BuildRequiredContent)
   std::cerr << request.serialize().c_str() << std::endl;
 }
 
-TEST(ChatBodyBuilderTest, BuildRequiredContent)
+TEST(BodyBuilderTest, BuildRequiredContent)
 {
   // setup
   // nothing to do
 
   // exercise
-  const auto request = ChatBodyBuilder()
+  const auto request = BodyBuilder()
     .model("gpt-4-turbo")
     .message(MessageElementBuilder()
       .role("user")
