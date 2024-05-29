@@ -14,6 +14,7 @@ include_directories(
 )
 
 add_library(${PROJECT_NAME} SHARED
+  src/${PROJECT_NAME}/client.cpp
   src/${PROJECT_NAME}/chat.cpp
 )
 target_link_libraries(${PROJECT_NAME}
