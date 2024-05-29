@@ -3,6 +3,8 @@
 #include "chatgpt_client_cpp/messages.hpp"
 
 
+using chatgpt_client_cpp::messages::ChatBodyBuilder;;
+using chatgpt_client_cpp::messages::MessageElementBuilder;;
 using chatgpt_client_cpp::messages::ContentTextPartBuilder;
 using chatgpt_client_cpp::messages::ContentImageUriPartBuilder;
 using chatgpt_client_cpp::messages::ImageUriBuilder;
@@ -11,13 +13,13 @@ using chatgpt_client_cpp::messages::ImageUriBuilder;
 TEST(ContentTextPartBuilderTest, BuildRequiredContent)
 {
   // setup
-  ContentTextPartBuilder::SharedPtr target(new ContentTextPartBuilder());
+  // nothing to do
 
   // exercise
-  auto request = target
-    ->type("text")
-    ->text("hello")
-    ->get();
+  auto request = ContentTextPartBuilder()
+    .type("text")
+    .text("hello")
+    .get();
 
   // verify
   ASSERT_TRUE(request.has_field("type"));
@@ -33,17 +35,16 @@ TEST(ContentTextPartBuilderTest, BuildRequiredContent)
 TEST(ContentImageUriPartBuilderTest, BuildRequiredContent)
 {
   // setup
-  ContentImageUriPartBuilder::SharedPtr target1(new ContentImageUriPartBuilder());
-  ImageUriBuilder::SharedPtr target2(new ImageUriBuilder());
+  // nothing to do
 
   // exercise
-  auto request = target1
-    ->type("image_uri")
-    ->image_uri(target2
-        ->uri("https://hoge.com")
-        ->detail("dummy")
-        ->get())
-    ->get();
+  auto request = ContentImageUriPartBuilder()
+    .type("image_uri")
+    .image_uri(ImageUriBuilder()
+        .uri("https://hoge.com")
+        .detail("dummy")
+        .get())
+    .get();
 
   // verify
   ASSERT_TRUE(request.has_field("type"));
@@ -54,4 +55,58 @@ TEST(ContentImageUriPartBuilderTest, BuildRequiredContent)
   ASSERT_STREQ(
       "{\"image_uri\":{\"detail\":\"dummy\",\"uri\":\"https://hoge.com\"},\"type\":\"image_uri\"}",
       request.serialize().c_str());
+}
+
+TEST(MessageElementBuilderTest, BuildRequiredContent)
+{
+  // setup
+  // nothing to do
+
+  // exercise
+  const auto request = MessageElementBuilder()
+    .role("user")
+    .content(ContentTextPartBuilder()
+        .type("text")
+        .text("hello")
+        .get())
+    .content(ContentImageUriPartBuilder()
+        .type("image_uri")
+        .image_uri(ImageUriBuilder()
+          .uri("https://hoge.com")
+          .detail("dummy")
+          .get())
+        .get())
+    .get();
+
+  // verify
+  std::cerr << request.serialize().c_str() << std::endl;
+}
+
+TEST(ChatBodyBuilderTest, BuildRequiredContent)
+{
+  // setup
+  // nothing to do
+
+  // exercise
+  const auto request = ChatBodyBuilder()
+    .model("gpt-4-turbo")
+    .message(MessageElementBuilder()
+      .role("user")
+      .content(ContentTextPartBuilder()
+          .type("text")
+          .text("hello")
+          .get())
+      .content(ContentImageUriPartBuilder()
+          .type("image_uri")
+          .image_uri(ImageUriBuilder()
+            .uri("https://hoge.com")
+            .detail("dummy")
+            .get())
+          .get())
+      .get())
+    .max_tokens(30)
+    .get();
+
+  // verify
+  std::cerr << request.serialize().c_str() << std::endl;
 }

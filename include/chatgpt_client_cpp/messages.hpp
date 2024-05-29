@@ -7,12 +7,37 @@
 namespace chatgpt_client_cpp::messages
 {
 
-class MessageBuilder
+class ChatBodyBuilder
 {
 public:
-  MessageBuilder();
+  using SharedPtr = std::shared_ptr<ChatBodyBuilder>;
+  ChatBodyBuilder();
+  ~ChatBodyBuilder() = default;
+
+  ChatBodyBuilder& model(const utility::string_t& model);
+  ChatBodyBuilder& message(const web::json::value& message);
+  ChatBodyBuilder& max_tokens(const uint32_t max_tokens);
+
+  web::json::value get();
+
 private:
- web::json::value message_;
+ web::json::value json_;
+};
+
+class MessageElementBuilder
+{
+public:
+  using SharedPtr = std::shared_ptr<MessageElementBuilder>;
+  MessageElementBuilder();
+  ~MessageElementBuilder() = default;
+
+  MessageElementBuilder& role(const utility::string_t& role);
+  MessageElementBuilder& content(const web::json::value& content);
+
+  web::json::value get();
+
+private:
+ web::json::value json_;
 };
 
 
@@ -23,8 +48,8 @@ public:
   ContentTextPartBuilder() = default;
   ~ContentTextPartBuilder() = default;
 
-  ContentTextPartBuilder* type(const utility::string_t& type);
-  ContentTextPartBuilder* text(const utility::string_t& text);
+  ContentTextPartBuilder& type(const utility::string_t& type);
+  ContentTextPartBuilder& text(const utility::string_t& text);
 
   web::json::value get() const;
 
@@ -40,8 +65,8 @@ public:
   ContentImageUriPartBuilder() = default;
   ~ContentImageUriPartBuilder() = default;
 
-  ContentImageUriPartBuilder* type(const utility::string_t& type);
-  ContentImageUriPartBuilder* image_uri(const web::json::value& json);
+  ContentImageUriPartBuilder& type(const utility::string_t& type);
+  ContentImageUriPartBuilder& image_uri(const web::json::value& json);
 
   web::json::value get() const;
 
@@ -56,8 +81,8 @@ public:
   ImageUriBuilder() = default;
   ~ImageUriBuilder() = default;
 
-  ImageUriBuilder* uri(const utility::string_t& type);
-  ImageUriBuilder* detail(const utility::string_t& type);
+  ImageUriBuilder& uri(const utility::string_t& type);
+  ImageUriBuilder& detail(const utility::string_t& type);
 
   web::json::value get() const;
 
