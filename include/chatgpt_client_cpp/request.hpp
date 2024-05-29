@@ -11,28 +11,23 @@ namespace chatgpt_client_cpp::request
 namespace v1
 {
 
-class BuilderBase
+namespace chat {
+
+class Builder
 {
 public:
-  using SharedPtr = std::shared_ptr<BuilderBase>;
+  using SharedPtr = std::shared_ptr<Builder>;
 
-  BuilderBase() noexcept(false);
-  virtual ~BuilderBase() = default;
+  Builder() noexcept(false);
+  virtual ~Builder() = default;
 
-  web::http::http_request get() noexcept;
+  web::http::http_request get() const noexcept;
 
-protected:
-  BuilderBase* method(const web::http::method& method);
-  BuilderBase* header(const utility::string_t& key, const utility::string_t& value);
-  BuilderBase* body(const web::json::value& body);
+  Builder* body(const web::json::value& body);
 
-  web::http::uri_builder uri_builder_;
+private:
   web::http::http_request req_;
-
 };
-
-namespace chat
-{
 
 
 }  // namespace chat

@@ -11,10 +11,13 @@ namespace chatgpt_client_cpp::request
 namespace v1
 {
 
-BuilderBase::BuilderBase() noexcept(false)
-  : uri_builder_("v1")
+namespace chat
 {
-  this->method(web::http::methods::POST);
+
+Builder::Builder() noexcept(false)
+{
+  this->req_.set_request_uri("v1/chat/completions");
+  this->req_.set_method(web::http::methods::POST);
 
   const std::string key = std::getenv("OPENAI_API_KEY");
   if (key.empty())
@@ -24,34 +27,21 @@ BuilderBase::BuilderBase() noexcept(false)
   std::stringstream ss;
   ss << "Bearer " << key;
 
-  this
-    ->header("Content-Type", "application/json")
-    ->header("Authorization", ss.str());
+  this->req_.headers().add("Authorization", ss.str());
+  this->req_.headers().add("Content-Type", "application/json");
 }
 
-web::http::http_request BuilderBase::get() noexcept
+web::http::http_request Builder::get() const noexcept
 {
-  req_.set_request_uri(uri_builder_.to_uri());
   return req_;
 }
 
-BuilderBase* BuilderBase::method(const web::http::method& method)
-{
-  this->req_.set_method(method);
-  return this;
-}
-
-BuilderBase* BuilderBase::header(const utility::string_t& key, const utility::string_t& value)
-{
-  this->req_.headers().add(key, value);
-  return this;
-}
-
-BuilderBase* BuilderBase::body(const web::json::value& body)
+Builder* Builder::body(const web::json::value& body)
 {
   this->req_.set_body(body);
   return this;
 }
 
+}  // namespace chat
 }  // namespace v1
 }  // namespace chatgpt_client_cpp::request
