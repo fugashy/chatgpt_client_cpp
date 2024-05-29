@@ -83,15 +83,15 @@ private:
 };
 
 
-class ContentImageUriPartBuilder
+class ContentImageUrlPartBuilder
 {
 public:
-  using SharedPtr = std::shared_ptr<ContentImageUriPartBuilder>;
-  ContentImageUriPartBuilder() = default;
-  ~ContentImageUriPartBuilder() = default;
+  using SharedPtr = std::shared_ptr<ContentImageUrlPartBuilder>;
+  ContentImageUrlPartBuilder() = default;
+  ~ContentImageUrlPartBuilder() = default;
 
-  ContentImageUriPartBuilder& type(const utility::string_t& type);
-  ContentImageUriPartBuilder& image_uri(const web::json::value& json);
+  ContentImageUrlPartBuilder& type(const utility::string_t& type);
+  ContentImageUrlPartBuilder& image_url(const web::json::value& json);
 
   web::json::value get() const;
 
@@ -99,15 +99,15 @@ private:
   web::json::value json_;
 };
 
-class ImageUriBuilder
+class ImageUrlBuilder
 {
 public:
-  using SharedPtr = std::shared_ptr<ImageUriBuilder>;
-  ImageUriBuilder() = default;
-  ~ImageUriBuilder() = default;
+  using SharedPtr = std::shared_ptr<ImageUrlBuilder>;
+  ImageUrlBuilder() = default;
+  ~ImageUrlBuilder() = default;
 
-  ImageUriBuilder& uri(const utility::string_t& type);
-  ImageUriBuilder& detail(const utility::string_t& type);
+  ImageUrlBuilder& url(const utility::string_t& type);
+  ImageUrlBuilder& detail(const utility::string_t& type);
 
   web::json::value get() const;
 

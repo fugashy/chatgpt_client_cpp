@@ -134,47 +134,47 @@ web::json::value ContentTextPartBuilder::get() const
   return this->json_;
 }
 
-ContentImageUriPartBuilder& ContentImageUriPartBuilder::type(const utility::string_t& type)
+ContentImageUrlPartBuilder& ContentImageUrlPartBuilder::type(const utility::string_t& type)
 {
   this->json_["type"] = web::json::value::string(type);
   return *this;
 }
 
-ContentImageUriPartBuilder& ContentImageUriPartBuilder::image_uri(const web::json::value& image_uri)
+ContentImageUrlPartBuilder& ContentImageUrlPartBuilder::image_url(const web::json::value& image_url)
 {
-  this->json_["image_uri"] = image_uri;
+  this->json_["image_url"] = image_url;
   return *this;
 }
 
-web::json::value ContentImageUriPartBuilder::get() const
+web::json::value ContentImageUrlPartBuilder::get() const
 {
-  const bool has_required_fields = this->json_.has_field("type") && this->json_.has_field("image_uri");
+  const bool has_required_fields = this->json_.has_field("type") && this->json_.has_field("image_url");
   if (!has_required_fields)
   {
-    std::cerr << "Set both of type and image_uri" << std::endl;
+    std::cerr << "Set both of type and image_url" << std::endl;
     return web::json::value();
   }
   return this->json_;
 }
 
-ImageUriBuilder& ImageUriBuilder::uri(const utility::string_t& type)
+ImageUrlBuilder& ImageUrlBuilder::url(const utility::string_t& type)
 {
-  this->json_["uri"] = web::json::value::string(type);
+  this->json_["url"] = web::json::value::string(type);
   return *this;
 }
 
-ImageUriBuilder& ImageUriBuilder::detail(const utility::string_t& type)
+ImageUrlBuilder& ImageUrlBuilder::detail(const utility::string_t& type)
 {
   this->json_["detail"] = web::json::value::string(type);
   return *this;
 }
 
-web::json::value ImageUriBuilder::get() const
+web::json::value ImageUrlBuilder::get() const
 {
-  const bool has_required_fields = this->json_.has_field("uri");
+  const bool has_required_fields = this->json_.has_field("url");
   if (!has_required_fields)
   {
-    std::cerr << "uri is empty" << std::endl;
+    std::cerr << "url is empty" << std::endl;
     return web::json::value();
   }
   return this->json_;

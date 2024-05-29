@@ -38,6 +38,7 @@ install(
 # samples
 set(SAMPLE_NAMES
   chat
+  chat_with_image_uri
 )
 foreach(sample_name IN LISTS SAMPLE_NAMES)
   add_executable(${PROJECT_NAME}_sample_${sample_name}

@@ -7,8 +7,8 @@ using chatgpt_client_cpp::v1::chat::Builder;
 using BodyBuilder = chatgpt_client_cpp::v1::chat::body::Builder;;
 using chatgpt_client_cpp::v1::chat::body::MessageElementBuilder;;
 using chatgpt_client_cpp::v1::chat::body::ContentTextPartBuilder;
-using chatgpt_client_cpp::v1::chat::body::ContentImageUriPartBuilder;
-using chatgpt_client_cpp::v1::chat::body::ImageUriBuilder;
+using chatgpt_client_cpp::v1::chat::body::ContentImageUrlPartBuilder;
+using chatgpt_client_cpp::v1::chat::body::ImageUrlBuilder;
 
 
 TEST(ContentTextPartBuilderTest, BuildRequiredContent)
@@ -33,28 +33,28 @@ TEST(ContentTextPartBuilderTest, BuildRequiredContent)
 }
 
 
-TEST(ContentImageUriPartBuilderTest, BuildRequiredContent)
+TEST(ContentImageUrlPartBuilderTest, BuildRequiredContent)
 {
   // setup
   // nothing to do
 
   // exercise
-  auto request = ContentImageUriPartBuilder()
-    .type("image_uri")
-    .image_uri(ImageUriBuilder()
-        .uri("https://hoge.com")
+  auto request = ContentImageUrlPartBuilder()
+    .type("image_url")
+    .image_url(ImageUrlBuilder()
+        .url("https://hoge.com")
         .detail("dummy")
         .get())
     .get();
 
   // verify
   ASSERT_TRUE(request.has_field("type"));
-  EXPECT_STREQ("image_uri", request["type"].as_string().c_str());
-  ASSERT_TRUE(request.has_field("image_uri"));
-  EXPECT_STREQ("https://hoge.com", request["image_uri"]["uri"].as_string().c_str());
-  EXPECT_STREQ("dummy", request["image_uri"]["detail"].as_string().c_str());
+  EXPECT_STREQ("image_url", request["type"].as_string().c_str());
+  ASSERT_TRUE(request.has_field("image_url"));
+  EXPECT_STREQ("https://hoge.com", request["image_url"]["url"].as_string().c_str());
+  EXPECT_STREQ("dummy", request["image_url"]["detail"].as_string().c_str());
   ASSERT_STREQ(
-      "{\"image_uri\":{\"detail\":\"dummy\",\"uri\":\"https://hoge.com\"},\"type\":\"image_uri\"}",
+      "{\"image_url\":{\"detail\":\"dummy\",\"url\":\"https://hoge.com\"},\"type\":\"image_url\"}",
       request.serialize().c_str());
 }
 
@@ -70,10 +70,10 @@ TEST(MessageElementBuilderTest, BuildRequiredContent)
         .type("text")
         .text("hello")
         .get())
-    .content(ContentImageUriPartBuilder()
-        .type("image_uri")
-        .image_uri(ImageUriBuilder()
-          .uri("https://hoge.com")
+    .content(ContentImageUrlPartBuilder()
+        .type("image_url")
+        .image_url(ImageUrlBuilder()
+          .url("https://hoge.com")
           .detail("dummy")
           .get())
         .get())
@@ -97,10 +97,10 @@ TEST(BodyBuilderTest, BuildRequiredContent)
           .type("text")
           .text("hello")
           .get())
-      .content(ContentImageUriPartBuilder()
-          .type("image_uri")
-          .image_uri(ImageUriBuilder()
-            .uri("https://hoge.com")
+      .content(ContentImageUrlPartBuilder()
+          .type("image_url")
+          .image_url(ImageUrlBuilder()
+            .url("https://hoge.com")
             .detail("dummy")
             .get())
           .get())
@@ -127,10 +127,10 @@ TEST(ChatRequestTest, BuildRequired)
               .type("text")
               .text("hello")
               .get())
-          .content(ContentImageUriPartBuilder()
-              .type("image_uri")
-              .image_uri(ImageUriBuilder()
-                .uri("https://hoge.com")
+          .content(ContentImageUrlPartBuilder()
+              .type("image_url")
+              .image_url(ImageUrlBuilder()
+                .url("https://hoge.com")
                 .detail("dummy")
                 .get())
               .get())
@@ -145,5 +145,6 @@ TEST(ChatRequestTest, BuildRequired)
   web::http::http_headers req_headers = req.headers();
   EXPECT_EQ(3, req_headers.size());
   // TODO(fugashy) inspect headers
+  std::cerr << req.extract_json().get().serialize().c_str() << std::endl;
 }
 
