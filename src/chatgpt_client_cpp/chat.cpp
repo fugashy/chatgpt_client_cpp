@@ -1,36 +1,72 @@
-#include "chatgpt_client_cpp/body.hpp"
+#include "chatgpt_client_cpp/chat.hpp"
+
+#include <cstdlib>
+#include <sstream>
 
 
-namespace chatgpt_client_cpp::body
+
+namespace chatgpt_client_cpp
 {
-
+namespace v1
+{
 namespace chat
 {
 
-BodyBuilder::BodyBuilder()
+Builder::Builder() noexcept(false)
+{
+  this->req_.set_request_uri("v1/chat/completions");
+  this->req_.set_method(web::http::methods::POST);
+
+  const std::string key = std::getenv("OPENAI_API_KEY");
+  if (key.empty())
+  {
+    throw std::runtime_error("OPENAI_API_KEY is empty");
+  }
+  std::stringstream ss;
+  ss << "Bearer " << key;
+
+  this->req_.headers().add("Authorization", ss.str());
+  this->req_.headers().add("Content-Type", "application/json");
+}
+
+web::http::http_request Builder::get() const noexcept
+{
+  return req_;
+}
+
+Builder* Builder::body(const web::json::value& body)
+{
+  this->req_.set_body(body);
+  return this;
+}
+
+namespace body
+{
+
+Builder::Builder()
 {
   this->json_["messages"] = web::json::value::array();
 }
 
-BodyBuilder& BodyBuilder::model(const utility::string_t& model)
+Builder& Builder::model(const utility::string_t& model)
 {
   this->json_["model"] = web::json::value::string(model);
   return *this;
 }
 
-BodyBuilder& BodyBuilder::message(const web::json::value& message)
+Builder& Builder::message(const web::json::value& message)
 {
   this->json_["messages"][this->json_["messages"].size()] = message;
   return *this;
 }
 
-BodyBuilder& BodyBuilder::max_tokens(const uint32_t max_tokens)
+Builder& Builder::max_tokens(const uint32_t max_tokens)
 {
   this->json_["max_tokens"] = web::json::value::number(max_tokens);
   return *this;
 }
 
-web::json::value BodyBuilder::get()
+web::json::value Builder::get()
 {
   const bool has_required_fields =
     this->json_.has_field("model") && this->json_.has_field("messages");
@@ -143,6 +179,8 @@ web::json::value ImageUriBuilder::get() const
   }
   return this->json_;
 }
+}  // namespace body
 
 }  // namespace chat
-}  // namespace chatgpt_client_cpp::body
+}  // namespace v1
+}  // namespace chatgpt_client_cpp

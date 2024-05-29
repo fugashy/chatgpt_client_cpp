@@ -1,25 +1,47 @@
-#ifndef CHATGPT_CLIENT_CPP_MESSAGES_HPP_
-#define CHATGPT_CLIENT_CPP_MESSAGES_HPP_
+#ifndef CHATGPT_CLIENT_CPP_CHAT_HPP_
+#define CHATGPT_CLIENT_CPP_CHAT_HPP_
 #include <memory>
 
+#include <cpprest/http_msg.h>
 #include <cpprest/json.h>
 
-namespace chatgpt_client_cpp::body
+namespace chatgpt_client_cpp
 {
 
-namespace chat
+namespace v1
 {
 
-class BodyBuilder
+namespace chat {
+
+class Builder
 {
 public:
-  using SharedPtr = std::shared_ptr<BodyBuilder>;
-  BodyBuilder();
-  ~BodyBuilder() = default;
+  using SharedPtr = std::shared_ptr<Builder>;
 
-  BodyBuilder& model(const utility::string_t& model);
-  BodyBuilder& message(const web::json::value& message);
-  BodyBuilder& max_tokens(const uint32_t max_tokens);
+  Builder() noexcept(false);
+  virtual ~Builder() = default;
+
+  web::http::http_request get() const noexcept;
+
+  Builder* body(const web::json::value& body);
+
+private:
+  web::http::http_request req_;
+};
+
+namespace body
+{
+
+class Builder
+{
+public:
+  using SharedPtr = std::shared_ptr<Builder>;
+  Builder();
+  ~Builder() = default;
+
+  Builder& model(const utility::string_t& model);
+  Builder& message(const web::json::value& message);
+  Builder& max_tokens(const uint32_t max_tokens);
 
   web::json::value get();
 
@@ -92,8 +114,9 @@ public:
 private:
   web::json::value json_;
 };
-
+}  // namespace body
 
 }  // namespace chat
-}  // namespace chatgpt_client_cpp::body
-#endif  // CHATGPT_CLIENT_CPP_MESSAGES_HPP_
+}  // namespace v1
+}  // namespace chatgpt_client_cpp
+#endif  // CHATGPT_CLIENT_CPP_CHAT_HPP_

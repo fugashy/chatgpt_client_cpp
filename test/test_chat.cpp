@@ -1,14 +1,19 @@
 #include <string>
 #include <gtest/gtest.h>
-#include "chatgpt_client_cpp/body.hpp"
+#include "chatgpt_client_cpp/chat.hpp"
 
 
-using chatgpt_client_cpp::body::chat::BodyBuilder;;
-using chatgpt_client_cpp::body::chat::MessageElementBuilder;;
-using chatgpt_client_cpp::body::chat::ContentTextPartBuilder;
-using chatgpt_client_cpp::body::chat::ContentImageUriPartBuilder;
-using chatgpt_client_cpp::body::chat::ImageUriBuilder;
+using chatgpt_client_cpp::v1::chat::Builder;
+using BodyBuilder = chatgpt_client_cpp::v1::chat::body::Builder;;
+using chatgpt_client_cpp::v1::chat::body::MessageElementBuilder;;
+using chatgpt_client_cpp::v1::chat::body::ContentTextPartBuilder;
+using chatgpt_client_cpp::v1::chat::body::ContentImageUriPartBuilder;
+using chatgpt_client_cpp::v1::chat::body::ImageUriBuilder;
 
+
+TEST(ChatRequestTest, BuildRequired)
+{
+}
 
 TEST(ContentTextPartBuilderTest, BuildRequiredContent)
 {
