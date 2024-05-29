@@ -35,6 +35,32 @@ install(
   DIRECTORY include/
   DESTINATION include)
 
+# samples
+set(SAMPLE_NAMES
+  chat
+)
+foreach(sample_name IN LISTS SAMPLE_NAMES)
+  add_executable(${PROJECT_NAME}_sample_${sample_name}
+    src/${PROJECT_NAME}/samples/${sample_name}.cpp
+  )
+  target_link_libraries(${PROJECT_NAME}_sample_${sample_name}
+    ${PROJECT_NAME}
+  )
+  install(
+    TARGETS
+      ${PROJECT_NAME}_sample_${sample_name}
+    EXPORT ${PROJECT_NAME}
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+    RUNTIME DESTINATION bin
+    INCLUDES DESTINATION include
+  )
+  if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    set_target_properties(${PROJECT_NAME}_sample_${sample_name}
+      PROPERTIES INSTALL_RPATH "@executable_path/../lib")
+  endif()
+endforeach()
+
 if (TEST)
   enable_testing()
   add_subdirectory(test)
