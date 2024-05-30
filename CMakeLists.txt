@@ -62,6 +62,11 @@ foreach(sample_name IN LISTS SAMPLE_NAMES)
   endif()
 endforeach()
 
+install(EXPORT ${PROJECT_NAME}
+  FILE ${PROJECT_NAME}-config.cmake
+  DESTINATION share/cmake/${PROJECT_NAME}/
+  EXPORT_LINK_INTERFACE_LIBRARIES)
+
 if (TEST)
   enable_testing()
   add_subdirectory(test)
