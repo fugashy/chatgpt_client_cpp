@@ -15,7 +15,7 @@ int main(int argc, char** argv)
   {
     text = argv[1];
   }
-  std::cout << "input: " << text << std::endl;
+  std::cout << "text: " << text << std::endl;
 
   const auto req = ReqBuilder()
     .body(ReqBodyBuilder()
@@ -27,7 +27,7 @@ int main(int argc, char** argv)
               .text(text)
               .get())
           .get())
-        .max_tokens(30)
+        .max_tokens(300)
         .get())
     .get();
 

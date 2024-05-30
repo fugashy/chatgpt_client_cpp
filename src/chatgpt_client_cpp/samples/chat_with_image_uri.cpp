@@ -13,11 +13,18 @@ using chatgpt_client_cpp::v1::chat::body::ImageUrlBuilder;
 int main(int argc, char** argv)
 {
   std::string text = "なにが写っていますか";
+  std::string image_url = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg";
   if (argc > 1)
   {
     text = argv[1];
   }
-  std::cout << "input: " << text << std::endl;
+  if (argc > 2)
+  {
+    image_url = argv[2];
+  }
+  std::cout << "argument num: " << argc << std::endl;
+  std::cout << "text        : " << text << std::endl;
+  std::cout << "image url   : " << image_url << std::endl;
 
   const auto req = ReqBuilder()
     .body(ReqBodyBuilder()
@@ -31,11 +38,11 @@ int main(int argc, char** argv)
           .content(ContentImageUrlPartBuilder()
               .type("image_url")
               .image_url(ImageUrlBuilder()
-                .url("https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg")
+                .url(image_url)
                 .get())
               .get())
           .get())
-        .max_tokens(30)
+        .max_tokens(300)
         .get())
     .get();
 
