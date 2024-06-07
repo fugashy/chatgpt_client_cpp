@@ -32,6 +32,14 @@ A CHATGPT client library implemented in C++
 
 - [ ] Threads
 
+  - [x] Create
+
+  - [x] Retrive
+
+  - [ ] Modify
+
+  - [x] Delete
+
 - [ ] Messages
 
 - [ ] Runs
