@@ -1,7 +1,7 @@
 #include "chatgpt_client_cpp/threads.hpp"
 
-#include <cstdlib>
-#include <sstream>
+#include "chatgpt_client_cpp/utils.hpp"
+
 
 namespace chatgpt_client_cpp::v1::threads
 {
@@ -13,18 +13,8 @@ Builder::Builder() noexcept(false)
 {
   this->req_.set_request_uri("v1/threads");
   this->req_.set_method(web::http::methods::POST);
-
-  const std::string key = std::getenv("OPENAI_API_KEY");
-  if (key.empty())
-  {
-    throw std::runtime_error("OPENAI_API_KEY is empty");
-  }
-  std::stringstream ss;
-  ss << "Bearer " << key;
-
-  this->req_.headers().add("Authorization", ss.str());
+  this->req_.headers().add("Authorization", utils::GetKey());
   this->req_.headers().add("Content-Type", "application/json");
-
   this->req_.headers().add("OpenAI-Beta", "assistants=v2");
 }
 
@@ -34,7 +24,7 @@ Builder& Builder::body(const web::json::value& body)
   return *this;
 }
 
-web::http::http_request Builder::get() noexcept
+web::http::http_request Builder::build() noexcept
 {
   return this->req_;
 }
@@ -64,7 +54,7 @@ Builder& Builder::metadata(const web::json::value& metadata)
   return *this;
 }
 
-web::json::value Builder::get()
+web::json::value Builder::build()
 {
   return this->json_;
 }
@@ -86,7 +76,7 @@ MessageBuilder& MessageBuilder::content(const web::json::value& content)
   return *this;
 }
 
-web::json::value MessageBuilder::get()
+web::json::value MessageBuilder::build()
 {
   return this->json_;
 }
@@ -102,7 +92,7 @@ TextContentBuilder& TextContentBuilder::text(const utility::string_t& text)
   return *this;
 }
 
-web::json::value TextContentBuilder::get()
+web::json::value TextContentBuilder::build()
 {
   return this->json_;
 }
@@ -118,18 +108,8 @@ Builder::Builder() noexcept(false)
 {
   this->uri_builder_.set_path("v1/threads");
   this->req_.set_method(web::http::methods::GET);
-
-  const std::string key = std::getenv("OPENAI_API_KEY");
-  if (key.empty())
-  {
-    throw std::runtime_error("OPENAI_API_KEY is empty");
-  }
-  std::stringstream ss;
-  ss << "Bearer " << key;
-
-  this->req_.headers().add("Authorization", ss.str());
+  this->req_.headers().add("Authorization", utils::GetKey());
   this->req_.headers().add("Content-Type", "application/json");
-
   this->req_.headers().add("OpenAI-Beta", "assistants=v2");
 }
 
@@ -139,7 +119,7 @@ Builder& Builder::thread_id(const utility::string_t& thread_id)
   return *this;
 }
 
-web::http::http_request Builder::get()
+web::http::http_request Builder::build()
 {
   this->req_.set_request_uri(uri_builder_.to_uri());
   return this->req_;
@@ -154,18 +134,8 @@ Builder::Builder() noexcept(false)
 {
   this->uri_builder_.set_path("v1/threads");
   this->req_.set_method(web::http::methods::DEL);
-
-  const std::string key = std::getenv("OPENAI_API_KEY");
-  if (key.empty())
-  {
-    throw std::runtime_error("OPENAI_API_KEY is empty");
-  }
-  std::stringstream ss;
-  ss << "Bearer " << key;
-
-  this->req_.headers().add("Authorization", ss.str());
+  this->req_.headers().add("Authorization", utils::GetKey());
   this->req_.headers().add("Content-Type", "application/json");
-
   this->req_.headers().add("OpenAI-Beta", "assistants=v2");
 }
 
@@ -175,7 +145,7 @@ Builder& Builder::thread_id(const utility::string_t& thread_id)
   return *this;
 }
 
-web::http::http_request Builder::get()
+web::http::http_request Builder::build()
 {
   this->req_.set_request_uri(uri_builder_.to_uri());
   return this->req_;

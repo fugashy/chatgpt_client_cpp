@@ -1,8 +1,6 @@
 #include "chatgpt_client_cpp/chat.hpp"
 
-#include <cstdlib>
-#include <sstream>
-
+#include "chatgpt_client_cpp/utils.hpp"
 
 
 namespace chatgpt_client_cpp
@@ -16,20 +14,11 @@ Builder::Builder() noexcept(false)
 {
   this->req_.set_request_uri("v1/chat/completions");
   this->req_.set_method(web::http::methods::POST);
-
-  const std::string key = std::getenv("OPENAI_API_KEY");
-  if (key.empty())
-  {
-    throw std::runtime_error("OPENAI_API_KEY is empty");
-  }
-  std::stringstream ss;
-  ss << "Bearer " << key;
-
-  this->req_.headers().add("Authorization", ss.str());
+  this->req_.headers().add("Authorization", utils::GetKey());
   this->req_.headers().add("Content-Type", "application/json");
 }
 
-web::http::http_request Builder::get() const noexcept
+web::http::http_request Builder::build() const noexcept
 {
   return req_;
 }
@@ -66,7 +55,7 @@ Builder& Builder::max_tokens(const uint32_t max_tokens)
   return *this;
 }
 
-web::json::value Builder::get()
+web::json::value Builder::build()
 {
   const bool has_required_fields =
     this->json_.has_field("model") && this->json_.has_field("messages");
@@ -96,7 +85,7 @@ MessageElementBuilder& MessageElementBuilder::content(const web::json::value& co
   return *this;
 }
 
-web::json::value MessageElementBuilder::get()
+web::json::value MessageElementBuilder::build()
 {
   const bool has_required_fields =
     this->json_.has_field("role") &&
@@ -123,7 +112,7 @@ ContentTextPartBuilder& ContentTextPartBuilder::text(const utility::string_t& te
   return *this;
 }
 
-web::json::value ContentTextPartBuilder::get() const
+web::json::value ContentTextPartBuilder::build() const
 {
   const bool has_text_part = this->json_.has_field("type") && this->json_.has_field("text");
   if (!has_text_part)
@@ -146,7 +135,7 @@ ContentImageUrlPartBuilder& ContentImageUrlPartBuilder::image_url(const web::jso
   return *this;
 }
 
-web::json::value ContentImageUrlPartBuilder::get() const
+web::json::value ContentImageUrlPartBuilder::build() const
 {
   const bool has_required_fields = this->json_.has_field("type") && this->json_.has_field("image_url");
   if (!has_required_fields)
@@ -169,7 +158,7 @@ ImageUrlBuilder& ImageUrlBuilder::detail(const utility::string_t& type)
   return *this;
 }
 
-web::json::value ImageUrlBuilder::get() const
+web::json::value ImageUrlBuilder::build() const
 {
   const bool has_required_fields = this->json_.has_field("url");
   if (!has_required_fields)

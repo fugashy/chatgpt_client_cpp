@@ -21,7 +21,7 @@ public:
   Builder() noexcept(false);
   virtual ~Builder() = default;
 
-  web::http::http_request get() const noexcept;
+  web::http::http_request build() const noexcept;
 
   Builder& body(const web::json::value& body);
 
@@ -43,7 +43,7 @@ public:
   Builder& message(const web::json::value& message);
   Builder& max_tokens(const uint32_t max_tokens);
 
-  web::json::value get();
+  web::json::value build();
 
 private:
  web::json::value json_;
@@ -59,7 +59,7 @@ public:
   MessageElementBuilder& role(const utility::string_t& role);
   MessageElementBuilder& content(const web::json::value& content);
 
-  web::json::value get();
+  web::json::value build();
 
 private:
  web::json::value json_;
@@ -76,7 +76,7 @@ public:
   ContentTextPartBuilder& type(const utility::string_t& type);
   ContentTextPartBuilder& text(const utility::string_t& text);
 
-  web::json::value get() const;
+  web::json::value build() const;
 
 private:
   web::json::value json_;
@@ -93,7 +93,7 @@ public:
   ContentImageUrlPartBuilder& type(const utility::string_t& type);
   ContentImageUrlPartBuilder& image_url(const web::json::value& json);
 
-  web::json::value get() const;
+  web::json::value build() const;
 
 private:
   web::json::value json_;
@@ -109,7 +109,7 @@ public:
   ImageUrlBuilder& url(const utility::string_t& type);
   ImageUrlBuilder& detail(const utility::string_t& type);
 
-  web::json::value get() const;
+  web::json::value build() const;
 
 private:
   web::json::value json_;

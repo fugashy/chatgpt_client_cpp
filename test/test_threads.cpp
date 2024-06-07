@@ -13,7 +13,7 @@ TEST(TextContentBuilderTest, Build)
   // exercise
   auto req = create::body::TextContentBuilder()
     .text("hello ai")
-    .get();
+    .build();
 
   // verify
   ASSERT_STREQ(
@@ -31,8 +31,8 @@ TEST(MessageBuilderTest, Build)
     .role("user")
     .content(create::body::TextContentBuilder()
         .text("hello ai")
-        .get())
-    .get();
+        .build())
+    .build();
 
   // verify
   ASSERT_STREQ(
@@ -58,15 +58,15 @@ TEST(BodyBuilderTest, Build)
       .role("user")
       .content(create::body::TextContentBuilder()
         .text("hello ai")
-        .get())
-      .get())
+        .build())
+      .build())
     .message(create::body::MessageBuilder()
       .role("assistant")
       .content(create::body::TextContentBuilder()
         .text("you are ai")
-        .get())
-      .get())
-    .get();
+        .build())
+      .build())
+    .build();
 
   // verify
   ASSERT_STREQ(
@@ -92,16 +92,16 @@ TEST(CreateThreadBuilderTest, Build)
         .role("user")
         .content(create::body::TextContentBuilder()
           .text("hello ai")
-          .get())
-        .get())
+          .build())
+        .build())
       .message(create::body::MessageBuilder()
         .role("assistant")
         .content(create::body::TextContentBuilder()
           .text("you are ai")
-          .get())
-        .get())
-      .get())
-    .get();
+          .build())
+        .build())
+      .build())
+    .build();
 
   // verify
   EXPECT_STREQ(web::http::methods::POST.c_str(), req.method().c_str());
@@ -124,7 +124,7 @@ TEST(RetrieveBuilderTest, Build)
   // exercise
   auto req = retrieve::Builder()
     .thread_id(thread_id)
-    .get();
+    .build();
 
   // verify
   EXPECT_STREQ(web::http::methods::GET.c_str(), req.method().c_str());

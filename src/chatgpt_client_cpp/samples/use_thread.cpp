@@ -13,16 +13,16 @@ int main(int argc, char** argv)
         .role("user")
         .content(threads::create::body::TextContentBuilder()
           .text("hello ai")
-          .get())
-        .get())
+          .build())
+        .build())
       .message(threads::create::body::MessageBuilder()
         .role("assistant")
         .content(threads::create::body::TextContentBuilder()
           .text("you are ai")
-          .get())
-        .get())
-      .get())
-    .get();
+          .build())
+        .build())
+      .build())
+    .build();
 
   auto res_create = client::Client::GetInstance().
     Request<client::Client::OptionalJson>(req_create);
@@ -37,7 +37,7 @@ int main(int argc, char** argv)
 
   auto req_retrieve = threads::retrieve::Builder()
     .thread_id(thread_id)
-    .get();
+    .build();
   auto res_retrieve = client::Client::GetInstance().
     Request<client::Client::OptionalJson>(req_retrieve);
   if (res_retrieve == std::nullopt)
@@ -48,7 +48,7 @@ int main(int argc, char** argv)
 
   auto req_delete = threads::delete_::Builder()
     .thread_id(thread_id)
-    .get();
+    .build();
   auto res_delete = client::Client::GetInstance().
     Request<client::Client::OptionalJson>(req_delete);
   if (res_delete == std::nullopt)

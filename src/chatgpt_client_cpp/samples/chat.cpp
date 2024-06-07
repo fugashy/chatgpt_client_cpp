@@ -25,11 +25,11 @@ int main(int argc, char** argv)
           .content(ContentTextPartBuilder()
               .type("text")
               .text(text)
-              .get())
-          .get())
+              .build())
+          .build())
         .max_tokens(300)
-        .get())
-    .get();
+        .build())
+    .build();
 
   const auto res = Client::GetInstance().Request<Client::OptionalJson>(req);
 

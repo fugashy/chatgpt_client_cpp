@@ -15,7 +15,7 @@ public:
   ~Builder() = default;
 
   Builder& body(const web::json::value& body);
-  web::http::http_request get() noexcept;
+  web::http::http_request build() noexcept;
 
 private:
   web::http::http_request req_;
@@ -32,7 +32,7 @@ public:
   Builder& message(const web::json::value& message);
   Builder& tool_resources(const web::json::value& tool_resources);
   Builder& metadata(const web::json::value& tool_resources);
-  web::json::value get();
+  web::json::value build();
 
 private:
   web::json::value json_;
@@ -59,7 +59,7 @@ public:
     return *this;
   }
 
-  web::json::value get();
+  web::json::value build();
 
 private:
   web::json::value json_;
@@ -72,7 +72,7 @@ public:
   ~TextContentBuilder() = default;
 
   TextContentBuilder& text(const utility::string_t& text);
-  web::json::value get();
+  web::json::value build();
 
 private:
   web::json::value json_;
@@ -92,7 +92,7 @@ public:
   ~Builder() = default;
 
   Builder& thread_id(const utility::string_t& thread_id);
-  web::http::http_request get();
+  web::http::http_request build();
 
 private:
   web::http::uri_builder uri_builder_;
@@ -110,7 +110,7 @@ public:
   ~Builder() = default;
 
   Builder& thread_id(const utility::string_t& thread_id);
-  web::http::http_request get();
+  web::http::http_request build();
 
 private:
   web::http::uri_builder uri_builder_;

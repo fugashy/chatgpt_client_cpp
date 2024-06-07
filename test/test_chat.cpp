@@ -20,7 +20,7 @@ TEST(ContentTextPartBuilderTest, BuildRequiredContent)
   auto request = ContentTextPartBuilder()
     .type("text")
     .text("hello")
-    .get();
+    .build();
 
   // verify
   ASSERT_TRUE(request.has_field("type"));
@@ -44,8 +44,8 @@ TEST(ContentImageUrlPartBuilderTest, BuildRequiredContent)
     .image_url(ImageUrlBuilder()
         .url("https://hoge.com")
         .detail("dummy")
-        .get())
-    .get();
+        .build())
+    .build();
 
   // verify
   ASSERT_TRUE(request.has_field("type"));
@@ -69,15 +69,15 @@ TEST(MessageElementBuilderTest, BuildRequiredContent)
     .content(ContentTextPartBuilder()
         .type("text")
         .text("hello")
-        .get())
+        .build())
     .content(ContentImageUrlPartBuilder()
         .type("image_url")
         .image_url(ImageUrlBuilder()
           .url("https://hoge.com")
           .detail("dummy")
-          .get())
-        .get())
-    .get();
+          .build())
+        .build())
+    .build();
 
   // verify
   std::cerr << request.serialize().c_str() << std::endl;
@@ -96,17 +96,17 @@ TEST(BodyBuilderTest, BuildRequiredContent)
       .content(ContentTextPartBuilder()
           .type("text")
           .text("hello")
-          .get())
+          .build())
       .content(ContentImageUrlPartBuilder()
           .type("image_url")
           .image_url(ImageUrlBuilder()
             .url("https://hoge.com")
             .detail("dummy")
-            .get())
-          .get())
-      .get())
+            .build())
+          .build())
+      .build())
     .max_tokens(30)
-    .get();
+    .build();
 
   // verify
   std::cerr << request.serialize().c_str() << std::endl;
@@ -126,18 +126,18 @@ TEST(ChatRequestTest, BuildRequired)
           .content(ContentTextPartBuilder()
               .type("text")
               .text("hello")
-              .get())
+              .build())
           .content(ContentImageUrlPartBuilder()
               .type("image_url")
               .image_url(ImageUrlBuilder()
                 .url("https://hoge.com")
                 .detail("dummy")
-                .get())
-              .get())
-          .get())
+                .build())
+              .build())
+          .build())
         .max_tokens(30)
-        .get())
-    .get();
+        .build())
+    .build();
 
   // verify
   EXPECT_STREQ(web::http::methods::POST.c_str(), req.method().c_str());
