@@ -19,6 +19,7 @@ add_library(${PROJECT_NAME} SHARED
   src/${PROJECT_NAME}/chat.cpp
   src/${PROJECT_NAME}/assistants.cpp
   src/${PROJECT_NAME}/threads.cpp
+  src/${PROJECT_NAME}/messages.cpp
 )
 target_link_libraries(${PROJECT_NAME}
   ${cpprestsdk_LIBRARIES}
