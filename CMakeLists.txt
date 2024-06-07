@@ -16,6 +16,7 @@ include_directories(
 add_library(${PROJECT_NAME} SHARED
   src/${PROJECT_NAME}/client.cpp
   src/${PROJECT_NAME}/chat.cpp
+  src/${PROJECT_NAME}/threads.cpp
 )
 target_link_libraries(${PROJECT_NAME}
   ${cpprestsdk_LIBRARIES}
@@ -39,6 +40,7 @@ install(
 set(SAMPLE_NAMES
   chat
   chat_with_image_uri
+  use_thread
 )
 foreach(sample_name IN LISTS SAMPLE_NAMES)
   add_executable(${PROJECT_NAME}_sample_${sample_name}

@@ -1,0 +1,122 @@
+#ifndef CHATGPT_CLIENT_CPP_THREADS_HPP_
+#define CHATGPT_CLIENT_CPP_THREADS_HPP_
+#include <cpprest/http_msg.h>
+#include <cpprest/json.h>
+
+namespace chatgpt_client_cpp::v1::threads
+{
+namespace create
+{
+
+class Builder
+{
+public:
+  Builder() noexcept(false);
+  ~Builder() = default;
+
+  Builder& body(const web::json::value& body);
+  web::http::http_request get() noexcept;
+
+private:
+  web::http::http_request req_;
+};
+
+namespace body
+{
+class Builder
+{
+public:
+  Builder();
+  ~Builder() = default;
+
+  Builder& message(const web::json::value& message);
+  Builder& tool_resources(const web::json::value& tool_resources);
+  Builder& metadata(const web::json::value& tool_resources);
+  web::json::value get();
+
+private:
+  web::json::value json_;
+};
+
+class MessageBuilder
+{
+public:
+  MessageBuilder();
+  ~MessageBuilder() = default;
+
+  MessageBuilder& role(const utility::string_t& role);
+  MessageBuilder& content(const web::json::value& content);
+
+  MessageBuilder& attachment(const web::json::value& attachment)
+  {
+    std::cerr << "attachment is not implemented..." << std::endl;
+    return *this;
+  }
+
+  MessageBuilder& metadata(const web::json::value& metadata)
+  {
+    std::cerr << "metadata is not implemented..." << std::endl;
+    return *this;
+  }
+
+  web::json::value get();
+
+private:
+  web::json::value json_;
+};
+
+class TextContentBuilder
+{
+public:
+  TextContentBuilder();
+  ~TextContentBuilder() = default;
+
+  TextContentBuilder& text(const utility::string_t& text);
+  web::json::value get();
+
+private:
+  web::json::value json_;
+};
+
+
+}  // namespace body
+}  // namespace create
+
+namespace retrieve
+{
+
+class Builder
+{
+public:
+  Builder();
+  ~Builder() = default;
+
+  Builder& thread_id(const utility::string_t& thread_id);
+  web::http::http_request get();
+
+private:
+  web::http::uri_builder uri_builder_;
+  web::http::http_request req_;
+};
+
+}  // namespace retrieve
+
+namespace delete_ {
+
+class Builder
+{
+public:
+  Builder();
+  ~Builder() = default;
+
+  Builder& thread_id(const utility::string_t& thread_id);
+  web::http::http_request get();
+
+private:
+  web::http::uri_builder uri_builder_;
+  web::http::http_request req_;
+};
+
+}  // namespace delete_
+}  // namespace chatgpt_client_cpp::v1::threads
+#endif  // CHATGPT_CLIENT_CPP_THREADS_HPP_
