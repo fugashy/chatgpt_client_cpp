@@ -7,7 +7,7 @@ include(GoogleTest)
 
 message(STATUS "build test for ${PROJECT_NAME}")
 
-set(TEST_NAMES chat;threads)
+set(TEST_NAMES chat;threads;assistants)
 foreach(test_name IN LISTS TEST_NAMES)
   set(target ${PROJECT_NAME}_test_${test_name})
   message(STATUS "-- test: ${target}")

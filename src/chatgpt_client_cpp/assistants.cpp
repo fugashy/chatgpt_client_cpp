@@ -76,6 +76,9 @@ Builder::Builder()
   this->req_.headers().add("Authorization", utils::GetKey());
   this->req_.headers().add("Content-Type", "application/json");
   this->req_.headers().add("OpenAI-Beta", "assistants=v2");
+
+  // 空のボディをセットしないとextract_jsonが終了しない
+  this->req_.set_body(web::json::value());
 }
 
 web::http::http_request Builder::build()
@@ -95,6 +98,9 @@ Builder::Builder() noexcept(false)
   this->req_.headers().add("Authorization", utils::GetKey());
   this->req_.headers().add("Content-Type", "application/json");
   this->req_.headers().add("OpenAI-Beta", "assistants=v2");
+
+  // 空のボディをセットしないとextract_jsonが終了しない
+  this->req_.set_body(web::json::value());
 }
 
 Builder& Builder::assistant_id(const utility::string_t& assistant_id)
@@ -151,6 +157,8 @@ Builder::Builder() noexcept(false)
   this->req_.headers().add("Authorization", utils::GetKey());
   this->req_.headers().add("Content-Type", "application/json");
   this->req_.headers().add("OpenAI-Beta", "assistants=v2");
+
+  this->req_.set_body(web::json::value());
 }
 
 Builder& Builder::assistant_id(const utility::string_t& assistant_id)
