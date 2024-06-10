@@ -30,13 +30,17 @@ Some optional fields are not implemented yet...
 
 - [ ] Moderations
 
-- [ ] Assistancts
+- [x] Assistancts
 
   - [x] Create assistant
 
   - [x] List assistants
 
   - [x] Retrieve assistant
+
+  - [x] Modify assistant
+
+  - [x] Delete assistant
 
 - [ ] Threads
 
@@ -49,6 +53,16 @@ Some optional fields are not implemented yet...
   - [x] Delete
 
 - [ ] Messages
+
+  - [x] Create message
+
+  - [x] List messages
+
+  - [x] Retrieve message
+
+  - [ ] Modify message
+
+  - [x] Delete message
 
 - [ ] Runs
 

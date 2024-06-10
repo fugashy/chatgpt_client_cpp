@@ -20,6 +20,7 @@ add_library(${PROJECT_NAME} SHARED
   src/${PROJECT_NAME}/assistants.cpp
   src/${PROJECT_NAME}/threads.cpp
   src/${PROJECT_NAME}/messages.cpp
+  src/${PROJECT_NAME}/runs.cpp
 )
 target_link_libraries(${PROJECT_NAME}
   ${cpprestsdk_LIBRARIES}

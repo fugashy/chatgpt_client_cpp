@@ -64,8 +64,10 @@ private:
 };
 }  // namespace body
 }  // namespace create
+
 namespace list
 {
+
 class Builder
 {
 public:
@@ -77,9 +79,12 @@ public:
 private:
   web::http::http_request req_;
 };
+
 }  // namespace list
+
 namespace retrieve
 {
+
 class Builder
 {
 public:
@@ -93,9 +98,12 @@ private:
   web::http::uri_builder uri_builder_;
   web::http::http_request req_;
 };
+
 }  // namespace retrive
+
 namespace modify
 {
+
 class Builder
 {
 public:
@@ -116,8 +124,10 @@ namespace body
 using Builder = chatgpt_client_cpp::v1::assistants::create::body::Builder;
 }  // namespace body
 }  // namespace modify
+
 namespace delete_
 {
+
 class Builder
 {
 public:
@@ -131,6 +141,7 @@ private:
   web::http::uri_builder uri_builder_;
   web::http::http_request req_;
 };
+
 }  // namespace delete_
 }  // namespace chatgpt_client_cpp::v1::assistants
 #endif  // CHATGPT_CLIENT_CPP_ASSISTANTS_HPP_
