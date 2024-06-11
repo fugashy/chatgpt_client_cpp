@@ -11,7 +11,7 @@ namespace create
 {
 class Builder
 {
-private:
+public:
   Builder();
   ~Builder() = default;
 
@@ -27,6 +27,7 @@ private:
 namespace body
 {
 using MessageBuilder = chatgpt_client_cpp::v1::threads::create::body::MessageBuilder;
+using TextContentBuilder = chatgpt_client_cpp::v1::threads::create::body::TextContentBuilder;
 }  // namespace body
 
 }  // namespace create
@@ -62,6 +63,9 @@ public:
 private:
   web::http::uri_builder uri_builder_;
   web::http::http_request req_;
+
+  utility::string_t thread_id_;
+  utility::string_t message_id_;
 };
 }  // namespace retrieve
 
@@ -86,6 +90,9 @@ public:
 private:
   web::http::uri_builder uri_builder_;
   web::http::http_request req_;
+
+  utility::string_t thread_id_;
+  utility::string_t message_id_;
 };
 
 }  // namespace delete_
