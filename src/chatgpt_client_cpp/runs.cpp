@@ -29,6 +29,7 @@ Builder& Builder::body(const web::json::value& body)
 
 web::http::http_request Builder::build()
 {
+  this->uri_builder_.append_path("runs");
   this->req_.set_request_uri(uri_builder_.to_uri());
   return this->req_;
 }
@@ -91,19 +92,21 @@ Builder::Builder() noexcept(false)
 
 Builder& Builder::thread_id(const utility::string_t& thread_id)
 {
-  this->uri_builder_.append_path(thread_id);
-  this->uri_builder_.append_path("runs");
+  this->thread_id_ = thread_id;
   return *this;
 }
 
 Builder& Builder::run_id(const utility::string_t& run_id)
 {
-  this->uri_builder_.append_path(run_id);
+  this->run_id_ = run_id;
   return *this;
 }
 
 web::http::http_request Builder::build()
 {
+  this->uri_builder_.append_path(this->thread_id_);
+  this->uri_builder_.append_path("runs");
+  this->uri_builder_.append_path(this->run_id_);
   this->req_.set_request_uri(uri_builder_.to_uri());
   return this->req_;
 }
@@ -124,19 +127,21 @@ Builder::Builder() noexcept(false)
 
 Builder& Builder::thread_id(const utility::string_t& thread_id)
 {
-  this->uri_builder_.append_path(thread_id);
-  this->uri_builder_.append_path("runs");
+  this->thread_id_ = thread_id;
   return *this;
 }
 
 Builder& Builder::run_id(const utility::string_t& run_id)
 {
-  this->uri_builder_.append_path(run_id);
+  this->run_id_ = run_id;
   return *this;
 }
 
 web::http::http_request Builder::build()
 {
+  this->uri_builder_.append_path(this->thread_id_);
+  this->uri_builder_.append_path("runs");
+  this->uri_builder_.append_path(this->run_id_);
   this->req_.set_request_uri(uri_builder_.to_uri());
   return this->req_;
 }

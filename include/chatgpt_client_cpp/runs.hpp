@@ -79,6 +79,9 @@ public:
 private:
   web::http::uri_builder uri_builder_;
   web::http::http_request req_;
+
+  utility::string_t thread_id_;
+  utility::string_t run_id_;
 };
 }  // namespace retrieve
 namespace modify
@@ -102,6 +105,9 @@ public:
 private:
   web::http::uri_builder uri_builder_;
   web::http::http_request req_;
+
+  utility::string_t thread_id_;
+  utility::string_t run_id_;
 };
 }  // namespace cancel
 }  // namespace chatgpt_client_cpp::v1::runs
