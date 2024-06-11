@@ -28,7 +28,8 @@ TEST(CreateBuilderTest, Build)
         "\"description\":\"The AI assistant\","
         "\"instructions\":\"You are an assistant\","
         "\"model\":\"gpt-4o\","
-        "\"name\":\"AI\""
+        "\"name\":\"AI\","
+        "\"tools\":[]"
       "}",
       req.extract_json().get().serialize().c_str());
 }
@@ -45,9 +46,6 @@ TEST(ListBuilderTest, Build)
   // verify
   EXPECT_STREQ("v1/assistants", req.absolute_uri().to_string().c_str());
   EXPECT_STREQ(web::http::methods::GET.c_str(), req.method().c_str());
-  ASSERT_STREQ(
-      "null",
-      req.extract_json().get().serialize().c_str());
 }
 
 TEST(RetrieveBuilderTest, Build)
@@ -63,9 +61,6 @@ TEST(RetrieveBuilderTest, Build)
   // verify
   EXPECT_STREQ("v1/assistants/assistant_abc123", req.absolute_uri().to_string().c_str());
   EXPECT_STREQ(web::http::methods::GET.c_str(), req.method().c_str());
-  ASSERT_STREQ(
-      "null",
-      req.extract_json().get().serialize().c_str());
 }
 
 TEST(ModifyBuilderTest, Build)
@@ -85,7 +80,7 @@ TEST(ModifyBuilderTest, Build)
   EXPECT_STREQ("v1/assistants/assistant_abc123", req.absolute_uri().to_string().c_str());
   EXPECT_STREQ(web::http::methods::POST.c_str(), req.method().c_str());
   ASSERT_STREQ(
-      "{\"model\":\"gpt-3.5\"}",
+      "{\"model\":\"gpt-3.5\",\"tools\":[]}",
       req.extract_json().get().serialize().c_str());
 }
 

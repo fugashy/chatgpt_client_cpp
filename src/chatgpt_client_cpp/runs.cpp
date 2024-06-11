@@ -13,6 +13,7 @@ Builder::Builder()
   this->req_.set_method(web::http::methods::POST);
   this->req_.headers().add("Authorization", utils::GetKey());
   this->req_.headers().add("Content-Type", "application/json");
+  this->req_.headers().add("OpenAI-Beta", "assistants=v2");
 }
 
 Builder& Builder::thread_id(const utility::string_t& thread_id)

@@ -26,7 +26,7 @@ namespace body
 class Builder
 {
 public:
-  Builder() = default;
+  Builder();
   ~Builder() = default;
   web::json::value build();
   Builder& model(const utility::string_t& model);
