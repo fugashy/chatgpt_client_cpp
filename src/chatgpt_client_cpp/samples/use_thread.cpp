@@ -97,7 +97,8 @@ private:
 class Thread
 {
 public:
-  Thread() noexcept(false)
+  Thread(const bool delete_when_terminated = false) noexcept(false)
+    : delete_when_terminated_(delete_when_terminated)
   {
     auto req = threads::create::Builder().build();
     auto res = client::Client::GetInstance().Request<client::Client::OptionalJson>(req);
@@ -113,6 +114,8 @@ public:
 
   ~Thread()
   {
+    if (!delete_when_terminated_) return;
+
     auto req = threads::delete_::Builder()
       .thread_id(id_)
       .build();
@@ -152,6 +155,7 @@ public:
   std::string id() const { return id_; }
 
 private:
+  const bool delete_when_terminated_;
   web::json::value res_;
   std::string id_;
 };
