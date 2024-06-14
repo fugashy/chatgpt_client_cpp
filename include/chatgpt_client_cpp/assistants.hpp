@@ -1,11 +1,32 @@
 #ifndef CHATGPT_CLIENT_CPP_ASSISTANTS_HPP_
 #define CHATGPT_CLIENT_CPP_ASSISTANTS_HPP_
+#include <string>
+
 #include <cpprest/http_msg.h>
 #include <cpprest/json.h>
+
+#include "chatgpt_client_cpp/client.hpp"
+#include "chatgpt_client_cpp/helper_base.hpp"
 
 
 namespace chatgpt_client_cpp::v1::assistants
 {
+
+class Assistants final : public ApiHelper
+{
+public:
+  Assistants(const bool enable_destructor,
+      const ApiHelper::Pargs& pargs);
+  ~Assistants() override = default;
+
+protected:
+  ObjectHelper::SharedPtr InitializeObject(const ApiHelper::Pargs& pargs) override;
+  void DestructObject() override;
+
+private:
+  ObjectHelper::SharedPtr Create(const ApiHelper::Pargs& pargs);
+};
+
 namespace create
 {
 class Builder

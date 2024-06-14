@@ -4,6 +4,76 @@
 
 namespace chatgpt_client_cpp::v1::assistants
 {
+
+Assistants::Assistants(
+    const bool enable_destructor,
+    const std::map<std::string, std::string>& pargs)
+  : ApiHelper(enable_destructor, pargs)
+{
+  Initialize(pargs);
+}
+
+ObjectHelper::SharedPtr Assistants::InitializeObject(const ApiHelper::Pargs& pargs)
+{
+  const std::string name = pargs.at("name");
+  auto req = assistants::list::Builder().build();
+  auto res = client::Client::GetInstance().Request<client::Client::OptionalJson>(req);
+  if (res == std::nullopt)
+  {
+    throw std::runtime_error("failed to get response for list the assistant)");
+  }
+  for (auto e : res.value()["data"].as_array())
+  {
+    if (e["name"].as_string() == name)
+    {
+      return std::make_shared<ObjectHelper>(e);
+    }
+  }
+
+  return Create(pargs);
+}
+
+void Assistants::DestructObject()
+{
+  auto req = assistants::delete_::Builder()
+    .assistant_id(this->object_->GetId())
+    .build();
+  auto res = client::Client::GetInstance().Request<client::Client::OptionalJson>(req);
+  if (res == std::nullopt)
+  {
+    std::cerr << "failed to get response for deletion the assistant(" << this->object_->GetId().c_str() << ")" << std::endl;
+  }
+  if (!res.value()["deleted"].as_bool())
+  {
+    std::cerr << "failed to delete for assistant(" << this->object_->GetId().c_str() << ")" << std::endl;
+  }
+
+  std::cout << "delete the assistant(" << this->object_->GetId().c_str() << ")" << std::endl;
+}
+
+ObjectHelper::SharedPtr Assistants::Create(const ApiHelper::Pargs& pargs)
+{
+  const std::string name = pargs.at("name");
+  const std::string model = pargs.at("model");
+  const std::string description = pargs.at("description");
+  const std::string instructions = pargs.at("instruction");
+  auto req = assistants::create::Builder()
+    .body(assistants::create::body::Builder()
+        .model(model)
+        .name(name)
+        .description(description)
+        .instructions(instructions)
+        .build())
+    .build();
+  auto res = client::Client::GetInstance().Request<client::Client::OptionalJson>(req);
+  if (res == std::nullopt)
+  {
+    throw std::runtime_error("failed to request for creation assistants");
+  }
+
+  return std::make_shared<ObjectHelper>(res.value());
+}
+
 namespace create
 {
 

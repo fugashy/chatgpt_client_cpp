@@ -4,95 +4,6 @@ using namespace chatgpt_client_cpp;
 using namespace chatgpt_client_cpp::v1;
 
 
-class Assistant
-{
-public:
-  Assistant(
-      const std::string& name,
-      const bool delete_when_terminated = false) noexcept(false)
-    : delete_when_terminated_(delete_when_terminated)
-  {
-    // 目的の名前のアシスタントを得て実体化する
-    // ない場合は作る
-    // 実際のところ，同名のアシスタントは作成できる（IDで区別している）
-    // しかし，わかりにくいので名前で区別するようにすることにする
-    auto req = assistants::list::Builder().build();
-    auto res = client::Client::GetInstance().Request<client::Client::OptionalJson>(req);
-    if (res == std::nullopt)
-    {
-      throw std::runtime_error("failed to get response for list the assistant)");
-    }
-    for (auto e : res.value()["data"].as_array())
-    {
-      if (e["name"].as_string() == name)
-      {
-        id_ = e["id"].as_string();
-        res_ = e;
-      }
-    }
-
-    if (!id_.empty()) return;
-
-    Create(name, "gpt-4o", "A Math Tutor", "You are a math tutor");
-  }
-
-  ~Assistant()
-  {
-    if (!delete_when_terminated_)
-    {
-      std::cout << "skip deletion of the assistant(" << id_.c_str() << ")" << std::endl;
-      return;
-    }
-
-    auto req = assistants::delete_::Builder()
-      .assistant_id(id_)
-      .build();
-    auto res = client::Client::GetInstance().Request<client::Client::OptionalJson>(req);
-    if (res == std::nullopt)
-    {
-      std::cerr << "failed to get response for deletion the assistant(" << id_.c_str() << ")" << std::endl;
-    }
-    if (!res.value()["deleted"].as_bool())
-    {
-      std::cerr << "failed to delete for assistant(" << id_.c_str() << ")" << std::endl;
-    }
-    std::cout << "delete the assistant(" << id_.c_str() << ")" << std::endl;
-  }
-
-  std::string id() const { return id_; }
-
-private:
-  void Create(
-      const std::string& name,
-      const std::string& model,
-      const std::string& description,
-      const std::string& instructions)
-  {
-    auto req = assistants::create::Builder()
-      .body(assistants::create::body::Builder()
-          .model(model)
-          .name(name)
-          .description(description)
-          .instructions(instructions)
-          .build())
-      .build();
-    auto res = client::Client::GetInstance().Request<client::Client::OptionalJson>(req);
-    if (res == std::nullopt)
-    {
-      throw std::runtime_error("failed to request for creation assistants");
-    }
-
-    res_ = res.value();
-    id_ = res.value()["id"].as_string();
-    std::cout << "create a assistant(" << id_.c_str() << ")" << std::endl;
-  }
-
-  const bool delete_when_terminated_;
-  web::json::value res_;
-  std::string id_;
-};
-
-
 // スレッド
 class Thread
 {
@@ -237,17 +148,21 @@ private:
 
 int main(int argc, char** argv)
 {
-  auto assistant = Assistant("Math Tutor");
+  auto assistants = assistants::Assistants(
+      false,
+      {{"name", "Math Tutor"}});
   auto thread = Thread();
   auto msg = Message(thread.id(), "Hello");
   auto msgs_before = thread.GetMessages();
+  std::cout << "messages before asking to AI" << std::endl;
   for (const auto& pair : msgs_before)
   {
     std::cout << "from: " << pair.first << " -> " << pair.second << std::endl;
   }
-  auto run = Run(thread.id(), assistant.id());
+  auto run = Run(thread.id(), assistants.GetObject()->GetId());
   run.Wait();
   auto msgs_after = thread.GetMessages();
+  std::cout << "messages after asking to AI" << std::endl;
   for (const auto& pair : msgs_after)
   {
     std::cout << "from: " << pair.first << " -> " << pair.second << std::endl;
