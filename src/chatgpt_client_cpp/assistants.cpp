@@ -22,12 +22,20 @@ ObjectHelper::SharedPtr Assistants::InitializeObject(const ApiHelper::Pargs& par
   {
     throw std::runtime_error("failed to get response for list the assistant)");
   }
-  for (auto e : res.value()["data"].as_array())
+  try
   {
-    if (e["name"].as_string() == name)
+    for (auto e : res.value()["data"].as_array())
     {
-      return std::make_shared<ObjectHelper>(e);
+      if (e["name"].as_string() == name)
+      {
+        std::cout << "specified named assistant are exist. We use it" << std::endl;
+        return std::make_shared<ObjectHelper>(e);
+      }
     }
+  }
+  catch (const std::out_of_range& e)
+  {
+    std::cerr << "failed to retrieve specified assistant. We create it" << std::endl;
   }
 
   return Create(pargs);

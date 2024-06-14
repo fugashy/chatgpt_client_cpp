@@ -8,7 +8,12 @@ int main(int argc, char** argv)
 {
   auto assistants = assistants::Assistants(
       false,
-      {{"name", "Math Tutor"}});
+      {
+        {"name", "コメディアン"},
+        {"model", "gpt-4o"},
+        {"description", "あるコメディアン"},
+        {"instruction", "あなたはコメディアンです．ユーザからの問い合わせに対して面白おかしく答えてください．"},
+        });
 
   auto threads = threads::Threads(
       false);
