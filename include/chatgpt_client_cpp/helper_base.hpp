@@ -20,6 +20,7 @@ public:
   ~ObjectHelper() = default;
 
   std::string GetId() const { return this->object_.at("id").as_string(); }
+  std::string GetThreadId() const { return this->object_.at("thread_id").as_string(); }
 
 private:
   const web::json::value object_;
@@ -62,6 +63,19 @@ protected:
 
 private:
   const bool enable_destructor_;
+};
+
+class MessageInterface
+{
+public:
+  using MessageByRole = std::map<std::string, std::string>;
+  virtual MessageByRole GetMessages() = 0;
+};
+
+class WaitInterface
+{
+public:
+  virtual bool Wait() = 0;
 };
 
 

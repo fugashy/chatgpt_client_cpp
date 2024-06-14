@@ -3,8 +3,29 @@
 #include <cpprest/http_msg.h>
 #include <cpprest/json.h>
 
+#include "chatgpt_client_cpp/client.hpp"
+#include "chatgpt_client_cpp/helper_base.hpp"
+
 namespace chatgpt_client_cpp::v1::threads
 {
+
+class Threads final : public ApiHelper, public MessageInterface
+{
+public:
+  Threads(
+      const bool enable_destructor,
+      const ApiHelper::Pargs& pargs = ApiHelper::Pargs());
+  ~Threads() = default;
+
+  MessageInterface::MessageByRole GetMessages() override;
+
+protected:
+  ObjectHelper::SharedPtr InitializeObject(const ApiHelper::Pargs& pargs) override;
+  void DestructObject() override;
+
+private:
+};
+
 namespace create
 {
 

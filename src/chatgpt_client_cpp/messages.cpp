@@ -4,6 +4,34 @@
 
 namespace chatgpt_client_cpp::v1::messages
 {
+
+Messages::Messages(
+    const ApiHelper::Pargs& pargs)
+  : ApiHelper(false, pargs)
+{
+  Initialize(pargs);
+}
+
+ObjectHelper::SharedPtr Messages::InitializeObject(const ApiHelper::Pargs& pargs)
+{
+  auto req = messages::create::Builder()
+    .thread_id(pargs.at("thread_id"))
+    .body(messages::create::body::MessageBuilder()
+        .role("user")
+        .content(messages::create::body::TextContentBuilder()
+          .text(pargs.at("text"))
+          .build())
+        .build())
+    .build();
+  auto res = client::Client::GetInstance().Request<client::Client::OptionalJson>(req);
+  if (res == std::nullopt)
+  {
+    throw std::runtime_error("failed to get response for creation the message");
+  }
+
+  return std::make_shared<ObjectHelper>(res.value());
+}
+
 namespace create
 {
 

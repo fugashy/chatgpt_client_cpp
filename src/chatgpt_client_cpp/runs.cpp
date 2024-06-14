@@ -5,6 +5,54 @@
 
 namespace chatgpt_client_cpp::v1::runs
 {
+
+Runs::Runs(
+    const ApiHelper::Pargs& pargs)
+  : ApiHelper(false, pargs)
+{
+  Initialize(pargs);
+}
+
+ObjectHelper::SharedPtr Runs::InitializeObject(const ApiHelper::Pargs& pargs)
+{
+  auto req = runs::create::Builder()
+    .thread_id(pargs.at("thread_id"))
+    .body(runs::create::body::Builder()
+        .assistant_id(pargs.at("assistant_id"))
+        .build())
+    .build();
+  auto res = client::Client::GetInstance().Request<client::Client::OptionalJson>(req);
+  if (res == std::nullopt)
+  {
+    throw std::runtime_error("failed to get response for creation the run");
+  }
+
+  return std::make_shared<ObjectHelper>(res.value());
+}
+
+bool Runs::Wait()
+{
+  bool wait = true;
+  do
+  {
+    auto req = runs::retrieve::Builder()
+      .thread_id(object_->GetThreadId())
+      .run_id(object_->GetId())
+      .build();
+    auto res = client::Client::GetInstance().Request<client::Client::OptionalJson>(req);
+    if (res == std::nullopt)
+    {
+      std::cerr << "failed to retrieve runs in thread(" << object_->GetThreadId() << ")" << std::endl;
+      return false;
+    }
+
+    if(res.value()["status"].as_string() == "completed") wait = false;
+  }
+  while (wait);
+
+  return true;
+}
+
 namespace create
 {
 Builder::Builder()

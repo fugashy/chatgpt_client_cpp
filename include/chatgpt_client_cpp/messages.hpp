@@ -7,6 +7,19 @@
 
 namespace chatgpt_client_cpp::v1::messages
 {
+
+class Messages : public ApiHelper
+{
+public:
+  Messages(
+      const ApiHelper::Pargs& pargs = ApiHelper::Pargs());
+  ~Messages() = default;
+
+protected:
+  ObjectHelper::SharedPtr InitializeObject(const ApiHelper::Pargs& pargs) override;
+  void DestructObject() override {};
+};
+
 namespace create
 {
 class Builder

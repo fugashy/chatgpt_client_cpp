@@ -15,7 +15,8 @@ namespace chatgpt_client_cpp::v1::assistants
 class Assistants final : public ApiHelper
 {
 public:
-  Assistants(const bool enable_destructor,
+  Assistants(
+      const bool enable_destructor,
       const ApiHelper::Pargs& pargs);
   ~Assistants() override = default;
 
