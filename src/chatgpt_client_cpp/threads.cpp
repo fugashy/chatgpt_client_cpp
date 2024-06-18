@@ -15,13 +15,30 @@ Threads::Threads(
   Initialize(pargs);
 }
 
+Threads::Threads(
+    const bool enable_destructor,
+    const std::string& thread_id)
+  : ApiHelper(enable_destructor, ApiHelper::Pargs())
+{
+  auto req = threads::retrieve::Builder()
+    .thread_id(thread_id)
+    .build();
+  auto res = client::Client::GetInstance().Request<client::Client::OptionalJson>(req);
+  if (res == std::nullopt)
+  {
+    throw std::runtime_error("failed to request for creation threads");
+  }
+
+  object_ = std::make_shared<ObjectHelper>(res.value());
+}
+
 ObjectHelper::SharedPtr Threads::InitializeObject(const ApiHelper::Pargs& pargs)
 {
   auto req = threads::create::Builder().build();
   auto res = client::Client::GetInstance().Request<client::Client::OptionalJson>(req);
   if (res == std::nullopt)
   {
-    throw std::runtime_error("failed to request for creation threads");
+    throw std::runtime_error("failed to request for get threads");
   }
 
   return std::make_shared<ObjectHelper>(res.value());
@@ -44,7 +61,7 @@ void Threads::DestructObject()
   std::cout << "delete the thread(" << this->object_->GetId() << ")" << std::endl;
 }
 
-MessageInterface::MessageByRole Threads::GetMessages()
+MessageInterface::MessagesByRole Threads::GetMessages()
 {
   auto req = messages::list::Builder()
     .thread_id(this->object_->GetId())
@@ -53,15 +70,13 @@ MessageInterface::MessageByRole Threads::GetMessages()
   if (res == std::nullopt)
   {
     std::cerr << "failed to get response for list messages in the thread(" << this->object_->GetId() << ")" << std::endl;
-    return MessageByRole();
+    return MessagesByRole();
   }
 
-  MessageByRole out;
+  MessagesByRole out;
   for (auto e : res.value()["data"].as_array())
   {
-    out.insert({
-        e["role"].as_string(),
-        e["content"][0]["text"]["value"].as_string()});
+    out[e["role"].as_string()].push_back(e["content"][0]["text"]["value"].as_string());
   }
   return out;
 }

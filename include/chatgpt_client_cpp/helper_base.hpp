@@ -68,8 +68,8 @@ private:
 class MessageInterface
 {
 public:
-  using MessageByRole = std::map<std::string, std::string>;
-  virtual MessageByRole GetMessages() = 0;
+  using MessagesByRole = std::map<std::string, std::vector<std::string>>;
+  virtual MessagesByRole GetMessages() = 0;
 };
 
 class WaitInterface

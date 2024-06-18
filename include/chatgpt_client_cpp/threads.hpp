@@ -15,9 +15,12 @@ public:
   Threads(
       const bool enable_destructor,
       const ApiHelper::Pargs& pargs = ApiHelper::Pargs());
+  Threads(
+      const bool enable_destructor,
+      const std::string& thread_id);
   ~Threads() = default;
 
-  MessageInterface::MessageByRole GetMessages() override;
+  MessageInterface::MessagesByRole GetMessages() override;
 
 protected:
   ObjectHelper::SharedPtr InitializeObject(const ApiHelper::Pargs& pargs) override;

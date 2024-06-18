@@ -28,7 +28,11 @@ int main(int argc, char** argv)
   std::cout << "messages before asking to AI" << std::endl;
   for (const auto& pair : msgs_before)
   {
-    std::cout << "from: " << pair.first << " -> " << pair.second << std::endl;
+    std::cout << "from: " << pair.first << " -> " << std::endl;
+    for (const auto& msg : pair.second)
+    {
+      std::cout << "\t " << msg << std::endl;
+    }
   }
 
   auto runs = runs::Runs(
@@ -42,7 +46,11 @@ int main(int argc, char** argv)
   std::cout << "messages after asking to AI" << std::endl;
   for (const auto& pair : msgs_after)
   {
-    std::cout << "from: " << pair.first << " -> " << pair.second << std::endl;
+    std::cout << "from: " << pair.first << " -> " << std::endl;
+    for (const auto& msg : pair.second)
+    {
+      std::cout << "\t " << msg << std::endl;
+    }
   }
 
   return EXIT_SUCCESS;
