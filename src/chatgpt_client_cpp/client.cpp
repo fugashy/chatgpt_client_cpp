@@ -33,7 +33,7 @@ pplx::task<void> Client::Request(
         {
           if (res.status_code() != web::http::status_codes::OK)
           {
-            std::cerr << "Unexpected status code" << std::endl;
+            std::cerr << "[chatgpt] Unexpected status code" << std::endl;
             callback(std::nullopt);
             return;
           }
@@ -46,7 +46,7 @@ pplx::task<void> Client::Request(
           }
           else
           {
-            std::cerr << "Unknown content type: " << content_type << std::endl;
+            std::cerr << "[chatgpt] Unknown content type: " << content_type << std::endl;
             callback(web::json::value());
           }
         });
