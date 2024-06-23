@@ -2,6 +2,10 @@
 
 A CHATGPT client library implemented in C++
 
+# Dependencies
+
+- restcppsdk
+
 # Supported API
 
 Some optional fields are not implemented yet...
@@ -65,6 +69,18 @@ Some optional fields are not implemented yet...
   - [x] Delete message
 
 - [ ] Runs
+
+  - [x] Create runs
+
+  - [x] List runs
+
+  - [x] Retrieve runs
+
+  - [ ] Modify runs
+
+  - [ ] Submit tool outputs
+
+  - [x] Cancel runs
 
 - [ ] Run Steps
 
@@ -182,4 +198,19 @@ chatgpt_client_cpp_sample_chat_with_image_uri \
 > text        : こんにちは．何が写っていますか
 > image url   : https://upload.wikimedia.org/wikipedia/commons/4/46/Leadenhall_Market_In_London_-_Feb_2006_rotated.jpg
 > res :{"choices":[{"finish_reason":"stop","index":0,"logprobs":null,"message":{"content":"こんにちは。こ の写真には美しいアーケード商店街が映っています。写真の建物は歴史的で装飾が施されたアーケードで、天井はガラスと鉄の構造になっています。道の両脇に様々な店が並んでいます。また、いくつかの人々が道を歩いている様子も見えます。商業施設や観光地である可能性が高いです。","role":"assistant"}}],"created":1717026752,"id":"chatcmpl-9UNNo4U1Kr5wwbtlilVKwz30G7ZWK","model":"gpt-4o-2024-05-13","object":"chat.completion","system_fingerprint":"fp_aa87380ac5","usage":{"completion_tokens":105,"prompt_tokens":1119,"total_tokens":1224}}
+```
+
+- chatgpt_client_cpp_sample_use_thread
+
+```bash
+chatgpt_client_cpp_sample_use_thread
+
+> messages before asking to AI
+> from: user ->
+>          Hello
+> messages after asking to AI
+> from: assistant ->
+>          こんにちは！君の面白さのバッテリーはフル充電かい？それとも笑いの充電器が必要なら、任せておいて ！今日はどんなお笑いネタを探してる？
+> from: user ->
+>          Hello
 ```
