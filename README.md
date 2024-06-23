@@ -214,3 +214,13 @@ chatgpt_client_cpp_sample_use_thread
 > from: user ->
 >          Hello
 ```
+
+Using a docker container
+
+```bash
+docker run \
+  -it \
+  --rm \
+  -e OPENAI_API_KEY=$OPENAI_API_KEY \
+  cgccpp:24.04 chatgpt_client_cpp_sample_use_thread
+```
